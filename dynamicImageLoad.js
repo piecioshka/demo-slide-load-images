@@ -1,5 +1,5 @@
 /**
- * author robert@tomaszewski.net.pl
+ * robert@tomaszewski.net.pl
  */
 jQuery(document).ready(function() {
     var imgPathPrefix = 'media/img/';
@@ -39,6 +39,19 @@ jQuery(document).ready(function() {
 
     var switchImg = function(idx) {
 
+        var switchImgAnim = function(idx) {
+            $('.' + containerClass + ' img').fadeOut(200, function(){
+               $('.' + containerClass + ' img').attr({
+                   src: imgPathPrefix + imgArr[idx].name
+               }).bind('load', function(){
+                   if (this.complete) {
+                       $(this).fadeIn(400);
+                   }
+                   $(this).unbind('load');
+               });
+           });
+        }
+
         var getAlterIdx = function() {
             var alterIdx = null;
             var i = (currentIdx + 1) % imgArrLength;
@@ -67,7 +80,9 @@ jQuery(document).ready(function() {
                 idx = alterIdx;
             }
         }
-        jQuery('.' + containerClass + ' img').attr('src', imgPathPrefix + imgArr[idx].name);
+
+        switchImgAnim(idx);
+        // jQuery('.' + containerClass + ' img').attr('src', imgPathPrefix + imgArr[idx].name);
         currentIdx = idx;
         nextIdx = (currentIdx + 1) % imgArrLength;
     };

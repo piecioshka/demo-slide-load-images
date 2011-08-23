@@ -1,19 +1,36 @@
 /**
- * robert@tomaszewski.net.pl
+ * @author Robert Tomaszewski robert@tomaszewski.net.pl
+ * @author Piotr Kowalski piecioshka@gmail.com
  */
-jQuery(document).ready(function() {
+loader = this.loader || {};
+loader.init = function() {
     var imgPathPrefix = 'media/img/';
     var containerClass = 'mainContainer';
     var intervalTimeout = 10000;
     var intervalId
     var currentIdx;
 
-    var imgArr = [
-        {name: 'img_1_camp.jpg', loaded: false, showRequest: false, error: false},
-        {name: 'img_2_camp.jpg', loaded: false, showRequest: false, error: false},
-        {name: 'img_x_camp.jpg', loaded: false, showRequest: false, error: false},
-        {name: 'img_4_camp.jpg', loaded: false, showRequest: false, error: false}
-    ];
+    var imgArr = [ {
+        name : 'img_1_camp.jpg',
+        loaded : false,
+        showRequest : false,
+        error : false
+    }, {
+        name : 'img_2_camp.jpg',
+        loaded : false,
+        showRequest : false,
+        error : false
+    }, {
+        name : 'img_x_camp.jpg',
+        loaded : false,
+        showRequest : false,
+        error : false
+    }, {
+        name : 'img_4_camp.jpg',
+        loaded : false,
+        showRequest : false,
+        error : false
+    } ];
     var imgArrLength = imgArr.length;
 
     var initImgName = jQuery('.' + containerClass + ' img').attr('src').replace(/^.+\//, '');
@@ -40,16 +57,16 @@ jQuery(document).ready(function() {
     var switchImg = function(idx) {
 
         var switchImgAnim = function(idx) {
-            $('.' + containerClass + ' img').fadeOut(200, function(){
-               $('.' + containerClass + ' img').attr({
-                   src: imgPathPrefix + imgArr[idx].name
-               }).bind('load', function(){
-                   if (this.complete) {
-                       $(this).fadeIn(400);
-                   }
-                   $(this).unbind('load');
-               });
-           });
+            $('.' + containerClass + ' img').fadeOut(200, function() {
+                $('.' + containerClass + ' img').attr({
+                    src : imgPathPrefix + imgArr[idx].name
+                }).bind('load', function() {
+                    if (this.complete) {
+                        $(this).fadeIn(400);
+                    }
+                    $(this).unbind('load');
+                });
+            });
         }
 
         var getAlterIdx = function() {
@@ -82,7 +99,8 @@ jQuery(document).ready(function() {
         }
 
         switchImgAnim(idx);
-        // jQuery('.' + containerClass + ' img').attr('src', imgPathPrefix + imgArr[idx].name);
+        // jQuery('.' + containerClass + ' img').attr('src', imgPathPrefix +
+        // imgArr[idx].name);
         currentIdx = idx;
         nextIdx = (currentIdx + 1) % imgArrLength;
     };
@@ -93,7 +111,7 @@ jQuery(document).ready(function() {
         }, intervalTimeout);
     };
 
-    var runAtOnceSwitchImg  = function() {
+    var runAtOnceSwitchImg = function() {
         switchImg(nextIdx);
         intervalId = setInterval(function() {
             switchImg(nextIdx);
@@ -101,7 +119,7 @@ jQuery(document).ready(function() {
     };
     var nextIdx = 0;
 
-    for (var i=0;i<imgArrLength;i+=1) {
+    for ( var i = 0; i < imgArrLength; i += 1) {
         if (imgArr[i].name == initImgName) {
             imgArr[i].loaded = true;
             currentIdx = i;
@@ -111,4 +129,6 @@ jQuery(document).ready(function() {
         }
     }
     runDelaySwitchImg();
-});
+};
+
+window.onload = loader.init;

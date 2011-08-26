@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+#contener {
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    border: 1px solid #999;
+}
+
+#contener img {
+    width: 300px;
+    height: 200px;
+}

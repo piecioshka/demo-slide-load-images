@@ -3,132 +3,52 @@
  * @author Piotr Kowalski piecioshka@gmail.com
  */
 loader = this.loader || {};
-loader.init = function() {
-    var imgPathPrefix = 'media/img/';
-    var containerClass = 'mainContainer';
-    var intervalTimeout = 10000;
-    var intervalId
-    var currentIdx;
-
-    var imgArr = [ {
-        name : 'img_1_camp.jpg',
-        loaded : false,
-        showRequest : false,
-        error : false
-    }, {
-        name : 'img_2_camp.jpg',
-        loaded : false,
-        showRequest : false,
-        error : false
-    }, {
-        name : 'img_x_camp.jpg',
-        loaded : false,
-        showRequest : false,
-        error : false
-    }, {
-        name : 'img_4_camp.jpg',
-        loaded : false,
-        showRequest : false,
-        error : false
-    } ];
-    var imgArrLength = imgArr.length;
-
-    var initImgName = jQuery('.' + containerClass + ' img').attr('src').replace(/^.+\//, '');
-
-    var getImg = function(idx) {
-        if (imgArr[idx].loaded == true) {
-            return;
-        }
-        jQuery('<img />').one('error', function() {
-            imgArr[idx].error = true;
-            getImg((idx + 1) % imgArrLength);
-        }).attr('src', imgPathPrefix + imgArr[idx].name).one('load', function() {
-            imgArr[idx].loaded = true;
-            if (imgArr[idx].showRequest == true) {
-                imgArr[idx].showRequest = false;
-                runAtOnceSwitchImg();
-            }
-            getImg((idx + 1) % imgArrLength);
-            return;
-        });
-        return;
-    };
-
-    var switchImg = function(idx) {
-
-        var switchImgAnim = function(idx) {
-            $('.' + containerClass + ' img').fadeOut(200, function() {
-                $('.' + containerClass + ' img').attr({
-                    src : imgPathPrefix + imgArr[idx].name
-                }).bind('load', function() {
-                    if (this.complete) {
-                        $(this).fadeIn(400);
-                    }
-                    $(this).unbind('load');
-                });
-            });
-        }
-
-        var getAlterIdx = function() {
-            var alterIdx = null;
-            var i = (currentIdx + 1) % imgArrLength;
-
-            while (i != currentIdx) {
-                if (imgArr[i].loaded == true) {
-                    alterIdx = i;
-                    break;
-                }
-                i = (i + 1) % imgArrLength;
-            }
-
-            return alterIdx;
-        };
-        var alterIdx;
-
-        if (imgArr[idx].loaded == false) {
-            alterIdx = getAlterIdx();
-            if (alterIdx === null) {
-                if (imgArr[idx].error == false) {
-                    clearInterval(intervalId);
-                    imgArr[idx].showRequest = true;
-                }
-                return;
-            } else {
-                idx = alterIdx;
-            }
-        }
-
-        switchImgAnim(idx);
-        // jQuery('.' + containerClass + ' img').attr('src', imgPathPrefix +
-        // imgArr[idx].name);
-        currentIdx = idx;
-        nextIdx = (currentIdx + 1) % imgArrLength;
-    };
-
-    var runDelaySwitchImg = function() {
-        intervalId = setInterval(function() {
-            switchImg(nextIdx);
-        }, intervalTimeout);
-    };
-
-    var runAtOnceSwitchImg = function() {
-        switchImg(nextIdx);
-        intervalId = setInterval(function() {
-            switchImg(nextIdx);
-        }, intervalTimeout);
-    };
-    var nextIdx = 0;
-
-    for ( var i = 0; i < imgArrLength; i += 1) {
-        if (imgArr[i].name == initImgName) {
-            imgArr[i].loaded = true;
-            currentIdx = i;
-            nextIdx = i + 1;
-            getImg(nextIdx % imgArrLength);
-            break;
-        }
-    }
-    runDelaySwitchImg();
+loader.pure = loader.pure || {};
+loader.pure.init = function() {
+    log("loader.pure.init()");
+    
+    loader.contener = document.getElementById("contener");
+    var img = loader.contener.getElementsByTagName("img")[0];
+    img.src = loader.images[loader.config.iterator];
+    
+    loader.pure.slideshow.call(null);
+    
+    setInterval(function(){
+        var im = loader.pure.getActiveImg();
+        im.style.display = "none";
+        loader.pure.slideshow();
+    }, loader.config.interval);
 };
 
-window.onload = loader.init;
+loader.pure.getActiveImg = function(){
+    var images = loader.contener.getElementsByTagName("img");
+    if(loader.config.iterator-1 >= 0){
+        return images[loader.config.iterator-1];
+    } else {
+        return images[loader.images.length - 1];
+    }
+};
+
+loader.pure.slideshow = function(){
+
+    if(loader.config.iterator !== loader.images.length - 1){
+        loader.config.iterator++;
+
+        var img = document.createElement("img");
+        img.src = loader.images[loader.config.iterator];
+        img.alt = img.src;
+        img.style.display = "none";
+        
+        loader.contener.appendChild(img);
+    } else {
+        loader.config.iterator = 0;
+    }
+    
+
+    loader.contener.getElementsByTagName("img")[loader.config.iterator].style.display = "block";
+    
+};
+
+window.addEventListener("load", function(){
+    loader.pure.init();
+});

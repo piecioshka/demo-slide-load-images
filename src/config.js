@@ -1,5 +1,4 @@
 /**
- * @author Robert Tomaszewski robert@tomaszewski.net.pl
  * @author Piotr Kowalski piecioshka@gmail.com
  */
 config = this.config || {};

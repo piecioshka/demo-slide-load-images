@@ -2,8 +2,9 @@
 
 ## opis
 
-Dynamiczne ładowanie obrazków to problem z którym programista frontend'owy często się spotyka.<br />
-Projekt służy w celu najlepszego rozwiązania problemu doładowyjących się obrazków.
+Obrazki są ładowane w okreslony sposób:
+- obrazek jest ładowwany kiedy poprzedni się załadował oraz kiedy minął interwał czasowy
+- w place holderze jest jeden element <img> ale jeśli obrazek zaczyna się doładowywać to pojawia się kolejny tag <img> który nie jest widoczny dopóki się nie załaduje
 
 ## licencja
 

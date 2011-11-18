@@ -7,7 +7,7 @@
 3. Kiedy został w całości załadowany to pierwszy element zostaje usunięcty, a tym samym obrazek który się załadował jest widoczny.
 4. Kiedy ten zostanie załadowany zegar intervałowy zaczyna tykać, a po tym czasie do drzewa DOM dodaje się kolejny obrazek oraz się ładuje.
 
-## specyfikacja
+## konfiguracja
 
 - Adresy do obrazków znajdują się w tablicy `config.images`.
 - Identyfikator kontenera w którym obrazki będą ładowane znajduje się w zmiennej `config.placeholder`.

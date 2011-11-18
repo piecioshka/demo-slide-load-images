@@ -1,52 +1,49 @@
 /**
  * @author Piotr Kowalski piecioshka@gmail.com
  */
-loader = this.loader || {};
-
-loader.item = 0;
-
-loader.started = false;
-
-loader.next = function () {
-    loader.item++;
-    if (loader.item >= config.images.length) {
-        loader.item = 0;
-    }
-};
-
-loader.Img = function (src) {
-    var img = document.createElement("img");
-    img.src = src;
-    img.alt = "Obrazek";
-    return img;
-};
-
-loader.init = function() {
-    log("[f] loader.init()");
+var loader = (function () {
     
-    loader.slideshow();
-};
-
-loader.slideshow = function () {
-    log("[f] loader.slideshow({ element: " + loader.item + "})");
-    
-    var plh = pklib.dom.byId(config.placeholder),
-        src = config.images[loader.item],
-        pic = new loader.Img(src),
-        inserted = pklib.dom.insert(pic, plh);
-    
-    pklib.event.add(inserted, "load", function (element) {
-        loader.started && plh.removeChild(plh.firstChild);
-        loader.started = true;
+    var item = 0,
+        started = false,
         
-        setTimeout(function () {
-            loader.slideshow();
-        }, config.interval);
-    });
+        next = function () {
+            item++;
+            if (item >= config.images.length) {
+                item = 0;
+            }
+        },
+        
+        Img = function (src) {
+            var img = document.createElement("img");
+            img.src = src;
+            img.alt = "Obrazek";
+            return img;
+        },
+        
+        slideshow = function () {
+            var plh = pklib.dom.byId(config.placeholder),
+                src = config.images[item],
+                pic = new Img(src),
+                inserted = pklib.dom.insert(pic, plh);
+            
+            pklib.event.add(inserted, "load", function (element) {
+                started && plh.removeChild(plh.firstChild);
+                started = true;
+                
+                setTimeout(function () {
+                    slideshow();
+                }, config.interval);
+            });
+            
+            next();
+        };
     
-    loader.next();
-};
+    return {
+        init: function() {
+            slideshow();
+        }
+    };
+
+})();
 
 pklib.event.add(window, "load", loader.init);
-
-log("file pklib.loader.js");

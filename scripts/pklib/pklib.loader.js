@@ -20,7 +20,7 @@ var loader = (function () {
             return img;
         },
         
-        slideshow = function () {
+        slideShow = function () {
             var plh = pklib.dom.byId(config.placeholder),
                 src = config.images[item],
                 pic = new Img(src),
@@ -31,7 +31,7 @@ var loader = (function () {
                 started = true;
                 
                 setTimeout(function () {
-                    slideshow();
+                    slideShow();
                 }, config.interval);
             });
             
@@ -40,7 +40,7 @@ var loader = (function () {
     
     return {
         init: function() {
-            slideshow();
+            slideShow();
         }
     };
 

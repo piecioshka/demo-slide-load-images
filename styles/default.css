@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+#container {
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    border: 1px solid #999;
+}
+
+#container > img {
+    width: 400px;
+    height: 400px;
+}

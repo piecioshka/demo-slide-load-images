@@ -2,7 +2,7 @@
  * @author Piotr Kowalski piecioshka@gmail.com
  */
 var loader = (function () {
-        
+    
     var item = 0,
         started = false,
         
@@ -14,38 +14,36 @@ var loader = (function () {
         },
         
         Img = function (src) {
-            return jQuery("<img>").attr({
-                "src": src,
-                "alt": "Obrazek"
-            });
+            var img = document.createElement("img");
+            img.src = src;
+            img.alt = "Obrazek";
+            return img;
         },
         
-        slideshow = function () {
-            var plh = jQuery("#" + config.placeholder),
+        slideShow = function () {
+            var plh = dom.byId(config.placeholder),
                 src = config.images[item],
                 pic = new Img(src),
-                inserted = plh.append(pic);
+                inserted = dom.insert(pic, plh);
             
-            plh.find("img").ready(function (element) {
-                started && plh.children().eq(0).remove();
+            dom.onready(inserted, function (element) {
+                started && dom.del(plh);
                 started = true;
                 
                 setTimeout(function () {
-                    slideshow();
+                    slideShow();
                 }, config.interval);
             });
             
             next();
         };
-    
+        
     return {
         init: function() {
-            slideshow();
+            slideShow();
         }
     };
-
+    
 })();
 
-jQuery(document).ready(function () {
-    loader.init();
-});
+dom.addEvent(window, "load", loader.init);

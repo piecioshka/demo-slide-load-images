@@ -1,6 +1,4 @@
-# slide-load-images.js
-
-## Opis
+# test-slide-load-images
 
 1. Ładuje się pierwszy obrazek.
 2. Po interwale czasowym do DOM-a dodaje się kolejny obrazek, ale nie jest on widoczny.
@@ -9,14 +7,6 @@
 
 ## Konfiguracja
 
-- Adresy do obrazków znajdują się w tablicy `config.images`.
-- Identyfikator kontenera w którym obrazki będą ładowane znajduje się w zmiennej `config.placeholder`.
-- Interval czasowy można modyfikować dzięki zmiennej `config.interval`.
-
-## Licencja
-
-[The MIT License](http://piecioshka.mit-license.org)
-
-## Autorzy
-
-* [Piotr Kowalski](http://twitter.com/piecioshka)
+ * Adresy do obrazków znajdują się w tablicy `config.images`.
+ * Identyfikator kontenera w którym obrazki będą ładowane znajduje się w zmiennej `config.placeholder`.
+ * Interval czasowy można modyfikować dzięki zmiennej `config.interval`.

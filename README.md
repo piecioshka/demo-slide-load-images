@@ -1,6 +1,10 @@
-# concept-slide-load-images
+# demo-slide-load-images
 
-> :fish: Test app. Slideshow which loading images.
+🚁 Slideshow which loading images.
+
+## Preview 🎉
+
+https://piecioshka.github.io/demo-slide-load-images/
 
 ## How it working? (In polish)
 
